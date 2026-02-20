@@ -1,0 +1,19 @@
+{
+  "name": "spts-assistant-js",
+  "version": "1.0.0",
+  "description": "Bot para gerenciamento de chamadas e atividades no Discord",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js"
+  },
+  "dependencies": {
+    "discord.js": "^14.14.1",
+    "dotenv": "^16.4.1",
+    "node-schedule": "^2.1.1",
+    "moment": "^2.30.1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.3"
+  }
+}
