@@ -5,9 +5,11 @@ module.exports = {
     .setName('list_jobs')
     .setDescription('Lista todos os jobs agendados.'),
   
-  async execute(interaction, scheduledJobs) {
+  async execute(interaction, bot) {
     try {
-      if (scheduledJobs.length > 0) {
+      const scheduledJobs = bot.scheduledJobs;
+
+      if (scheduledJobs && scheduledJobs.length > 0) {
         await interaction.reply({
           content: `Trabalhos agendados:\n${scheduledJobs.join("\n")}`,
           ephemeral: true,

@@ -71,9 +71,9 @@ module.exports = {
       await interaction.editReply({ content: `Ocorreu um erro: ${error.message}` });
 
       if (interaction.replied) {
-        await interaction.editReply({ content: errorMessage });
+        await interaction.editReply({ content: error.message });
       } else {
-        await interaction.reply({ content: errorMessage, ephemeral: true });
+        await interaction.reply({ content: error.message, ephemeral: true });
       }
     }
   }

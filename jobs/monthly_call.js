@@ -1,10 +1,10 @@
 const schedule = require("node-schedule");
 const moment = require("moment");
 const fs = require("fs");
-const { guildID, channelID, roleID, emojiID, relatorioChannelID } = require('../config.json');
+const { guildID, channelID, roleID, emojiID, reportChannelID } = require('../config.json');
 
 module.exports = (bot) => {
-  schedule.scheduleJob("0 3 25 * *", async () => {
+  schedule.scheduleJob("0 0 25 * *", async () => {
     try {
       const guild = await bot.guilds.fetch(guildID);
       const channel = await guild.channels.fetch(channelID);
@@ -19,7 +19,7 @@ module.exports = (bot) => {
       await msg.react(`<:spts:${emojiID}>`);
       console.log(`Chamada de ${month} enviada. Mensagem ID: ${msg.id}`);
 
-      // === PARTE QUE ENVIA DM NO PRIVADO DA GALERA
+      // === PARTE QUE ENVIA DM NO PRIVADO 
       const allMembers = await guild.members.fetch();
       const targetMembers = allMembers.filter(member => member.roles.cache.has(roleID) && !member.user.bot && member.id !== '422808933862735872');
       
@@ -29,7 +29,7 @@ module.exports = (bot) => {
         try {
           await member.send(dmMessage);
         } catch (error) {
-          // Ignora caso a DM do membro seja fechada
+          console.error(`Não foi possível enviar DM para ${member.user.tag} (${member.id}):`, error);
         }
         await new Promise(resolve => setTimeout(resolve, 1000));
       }
@@ -39,7 +39,7 @@ module.exports = (bot) => {
       
       schedule.scheduleJob(dataRelatorio, async () => {
         try {
-          const relatorioChannel = await guild.channels.fetch(relatorioChannelID);
+          const relatorioChannel = await guild.channels.fetch(reportChannelID);
           const mensagemChamada = await channel.messages.fetch(msg.id);
           const reaction = mensagemChamada.reactions.cache.get(emojiID);
 
@@ -81,5 +81,5 @@ module.exports = (bot) => {
     }
   });
 
-  bot.scheduledJobs.push("Chamada Mensal (Dia 25 às 03:00) + DMs e Relatório automático após 7 dias");
+  bot.scheduledJobs.push("Chamada Mensal (Dia 25 às 00:00) + DMs e Relatório automático após 7 dias");
 };
