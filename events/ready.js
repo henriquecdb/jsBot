@@ -1,7 +1,7 @@
 const setupMonthlyCall = require('../jobs/monthly_call');
 
 module.exports = {
-  name: 'ready',
+  name: 'clientReady',
   once: true,
   async execute(bot) {
     console.log(`${bot.user.tag} is ready and online!`);
