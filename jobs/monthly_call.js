@@ -17,11 +17,12 @@ module.exports = (bot) => {
       const msgID = await sendMonthlyCallMessage(bot, channel, month, roleID, emojiID);
       await sendDMsToMembers(bot, guild, channelID, month, roleID);
       scheduleReport(bot, channel, msgID, emojiID, reportChannelID, month, roleID);
-      
     } catch (error) {
       console.error("Erro no job da chamada mensal:", error);
     }
   });
 
-  bot.scheduledJobs.push("Chamada Mensal (Dia 25 às 00:00) + DMs e Relatório automático após 7 dias");
+  bot.scheduledJobs.push(
+    "Chamada Mensal (Dia 25 às 00:00) + DMs e Relatório automático após 7 dias",
+  );
 };

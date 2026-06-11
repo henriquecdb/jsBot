@@ -1,4 +1,4 @@
-const setupMonthlyCall = require('../jobs/monthly_call');
+const setupMonthlyCall = require("../jobs/monthly_call");
 
 module.exports = {
   name: 'clientReady',
@@ -6,7 +6,9 @@ module.exports = {
   async execute(bot) {
     console.log(`${bot.user.tag} is ready and online!`);
 
-    const commandsArray = bot.commands.map(command => command.data.toJSON());
+    const commandsArray = bot.commands.map((command) =>
+      command.data.toJSON(),
+    );
     try {
       await bot.application.commands.set(commandsArray);
       console.log("Comandos registrados com sucesso.");
