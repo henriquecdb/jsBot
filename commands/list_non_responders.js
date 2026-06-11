@@ -2,7 +2,7 @@
 
 const { SlashCommandBuilder } = require('discord.js');
 const fs = require('fs');
-const { channelID, roleID, emojiID } = require('../config.json');
+const { channelID, roleID, emojiID } = require('../config');
 
 module.exports = {
     data: new SlashCommandBuilder()
