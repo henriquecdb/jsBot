@@ -4,7 +4,9 @@ const { guildID, channelID, roleID, emojiID, reportChannelID } = require('../con
 const { sendMonthlyCallMessage, sendDMsToMembers, scheduleReport } = require('../services/monthlyCallServices');
 
 module.exports = (bot) => {
-  schedule.scheduleJob("0 0 25 * *", async () => {
+  const cronRule = "0 0 0 25 * *"; // todo dia 25 à meia-noite
+
+  const job = schedule.scheduleJob(cronRule, async () => {
     try {
       const guild = await bot.guilds.fetch(guildID);
       const channel = await guild.channels.fetch(channelID);
@@ -22,7 +24,13 @@ module.exports = (bot) => {
     }
   });
 
+  const nextRun = job.nextInvocation();
+  const nextRunFormatted = nextRun.toLocaleString("pt-BR", {
+    day: "2-digit", month: "2-digit", year: "numeric", 
+    hour: "2-digit", minute: "2-digit", second: "2-digit",
+  });
+
   bot.scheduledJobs.push(
-    "Chamada Mensal (Dia 25 às 00:00) + DMs e Relatório automático após 7 dias",
+    `Chamada Mensal agendada para ${nextRunFormatted} + DMs e relatório automático 7 dias após a chamada`,
   );
 };

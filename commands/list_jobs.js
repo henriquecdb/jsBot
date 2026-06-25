@@ -1,4 +1,4 @@
-const { SlashCommandBuilder } = require("discord.js");
+const { SlashCommandBuilder, MessageFlags } = require("discord.js");
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -12,19 +12,19 @@ module.exports = {
             if (scheduledJobs && scheduledJobs.length > 0) {
                 await interaction.reply({
                     content: `Trabalhos agendados:\n${scheduledJobs.join("\n")}`,
-                    ephemeral: true,
+                    flags: MessageFlags.Ephemeral,
                 });
             } else {
                 await interaction.reply({
                     content: `Nenhum trabalho agendado no momento.`,
-                    ephemeral: true,
+                    flags: MessageFlags.Ephemeral,
                 });
             }
         } catch (error) {
             console.error("Erro ao listar jobs:", error);
             await interaction.reply({
                 content: `Ocorreu um erro ao listar os jobs: ${error.message}`,
-                ephemeral: true,
+                flags: MessageFlags.Ephemeral,
             });
         }
     },

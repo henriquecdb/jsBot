@@ -1,6 +1,6 @@
 //comando discord para retornar lista de quem não respondeu
 
-const { SlashCommandBuilder } = require('discord.js');
+const { SlashCommandBuilder, MessageFlags } = require('discord.js');
 const fs = require('fs');
 const { channelID, roleID, emojiID } = require('../config');
 
@@ -19,7 +19,7 @@ module.exports = {
 
     async execute(interaction, bot) {
         try {
-            await interaction.deferReply({ ephemeral: true });
+            await interaction.deferReply();
 
       const messageID = interaction.options.getString("message_id");
       const channel = await bot.channels.fetch(channelID);
@@ -55,15 +55,14 @@ module.exports = {
       fs.writeFileSync("non_responders.txt", nonRespondersList);
 
       await interaction.editReply({
-        content: `Encontrados ${nonResponders.length} membros que não reagiram.`,
+        content: `⚠️ Encontrados ${nonResponders.length} membros que não reagiram. Veja a lista abaixo:`,
       });
 
       await interaction.followUp({
-        content: "Aqui está o arquivo com a lista de membros:",
+        content: "Segue a lista de membros não respondentes:",
         files: [
           { attachment: "non_responders.txt", name: "non_responders.txt" },
         ],
-        ephemeral: true,
       });
 
       fs.unlinkSync("non_responders.txt");
@@ -75,7 +74,7 @@ module.exports = {
       if (interaction.replied) {
         await interaction.editReply({ content: error.message });
       } else {
-        await interaction.reply({ content: error.message, ephemeral: true });
+        await interaction.reply({ content: error.message, flags: MessageFlags.Ephemeral });
       }
     }
   }

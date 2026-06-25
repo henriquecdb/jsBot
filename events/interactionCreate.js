@@ -1,3 +1,5 @@
+const { MessageFlags } = require("discord.js");
+
 module.exports = {
     name: "interactionCreate",
     once: false,
@@ -16,12 +18,12 @@ module.exports = {
             if (interaction.replied || interaction.deferred) {
                 await interaction.followUp({
                     content: "Houve um erro ao executar esse comando!",
-                    ephemeral: true,
+                    flags: MessageFlags.Ephemeral,
                 });
             } else {
                 await interaction.reply({
                     content: "Houve um erro ao executar esse comando!",
-                    ephemeral: true,
+                    flags: MessageFlags.Ephemeral,
                 });
             }
         }

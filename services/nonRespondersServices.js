@@ -1,3 +1,4 @@
+const { MessageFlags } = require('discord.js');
 const fs = require('fs');
 
 async function validateReaction(bot, channelID, messageID, emojiID) {
@@ -44,7 +45,7 @@ async function generateAndSendReport(interaction, nonResponders) {
   await interaction.followUp({
     content: "Aqui está o arquivo com a lista de membros:",
     files: [{ attachment: "non_responders.txt", name: "non_responders.txt" }],
-    ephemeral: true,
+    flags: MessageFlags.Ephemeral,
   });
 
   fs.unlinkSync("non_responders.txt");
@@ -53,5 +54,5 @@ async function generateAndSendReport(interaction, nonResponders) {
 module.exports = {
   validateReaction,
   getNonResponders,
-  generateAndSendReport
+  generateAndSendReport,
 };
