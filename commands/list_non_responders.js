@@ -1,25 +1,21 @@
-//comando discord para retornar lista de quem não respondeu
-
-const { SlashCommandBuilder, MessageFlags } = require('discord.js');
-const fs = require('fs');
-const { channelID, roleID, emojiID } = require('../config');
+const { SlashCommandBuilder, MessageFlags } = require("discord.js");
+const fs = require("fs");
+const { channelID, roleID, emojiID } = require("../config");
 
 module.exports = {
-    data: new SlashCommandBuilder()
-        .setName("list_non_responders")
-        .setDescription(
-            "Lista membros que não reagiram com o emoji na mensagem.",
-        )
-        .addStringOption((option) =>
-            option
-                .setName("message_id")
-                .setDescription("ID da mensagem para verificar os reatores")
-                .setRequired(true),
-        ),
+  data: new SlashCommandBuilder()
+    .setName("list_non_responders")
+    .setDescription("Lista membros que não reagiram com o emoji na mensagem.")
+    .addStringOption((option) =>
+      option
+        .setName("message_id")
+        .setDescription("ID da mensagem para verificar os reatores")
+        .setRequired(true),
+    ),
 
-    async execute(interaction, bot) {
-        try {
-            await interaction.deferReply();
+  async execute(interaction, bot) {
+    try {
+      await interaction.deferReply();
 
       const messageID = interaction.options.getString("message_id");
       const channel = await bot.channels.fetch(channelID);
@@ -27,8 +23,8 @@ module.exports = {
       const reaction = message.reactions.cache.get(emojiID);
 
       if (!reaction) {
-        return await interaction.editReply({ 
-            content: `O emoji não foi encontrado nesta mensagem.` 
+        return await interaction.editReply({
+          content: `O emoji não foi encontrado nesta mensagem.`,
         });
       }
 
@@ -45,13 +41,16 @@ module.exports = {
       });
 
       if (nonResponders.length === 0) {
-        return await interaction.editReply({ content: "Todos os membros com o cargo especificado já reagiram à mensagem!" });
+        return await interaction.editReply({
+          content:
+            "Todos os membros com o cargo especificado já reagiram à mensagem!",
+        });
       }
 
       const nonRespondersList = nonResponders
         .map((user) => `${user.displayName} (${user.id})`)
         .join("\n");
-      
+
       fs.writeFileSync("non_responders.txt", nonRespondersList);
 
       await interaction.editReply({
@@ -66,16 +65,20 @@ module.exports = {
       });
 
       fs.unlinkSync("non_responders.txt");
-
     } catch (error) {
       console.error("Erro ao processar a interação:", error);
-      await interaction.editReply({ content: `Ocorreu um erro: ${error.message}` });
+      await interaction.editReply({
+        content: `Ocorreu um erro: ${error.message}`,
+      });
 
       if (interaction.replied) {
         await interaction.editReply({ content: error.message });
       } else {
-        await interaction.reply({ content: error.message, flags: MessageFlags.Ephemeral });
+        await interaction.reply({
+          content: error.message,
+          flags: MessageFlags.Ephemeral,
+        });
       }
     }
-  }
+  },
 };

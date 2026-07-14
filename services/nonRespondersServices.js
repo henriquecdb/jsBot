@@ -1,5 +1,5 @@
-const { MessageFlags } = require('discord.js');
-const fs = require('fs');
+const { MessageFlags } = require("discord.js");
+const fs = require("fs");
 
 async function validateReaction(bot, channelID, messageID, emojiID) {
   const channel = await bot.channels.fetch(channelID);
@@ -7,7 +7,7 @@ async function validateReaction(bot, channelID, messageID, emojiID) {
   const reaction = message.reactions.cache.get(emojiID);
 
   if (!reaction) {
-    throw new Error('O emoji não foi encontrado nesta mensagem.');
+    throw new Error("O emoji não foi encontrado nesta mensagem.");
   }
 
   return { reaction, message };
@@ -29,13 +29,16 @@ async function getNonResponders(guild, roleID, reactedUsers) {
 
 async function generateAndSendReport(interaction, nonResponders) {
   if (nonResponders.length === 0) {
-    return await interaction.editReply({ content: "Todos os membros com o cargo especificado já reagiram à mensagem!" });
+    return await interaction.editReply({
+      content:
+        "Todos os membros com o cargo especificado já reagiram à mensagem!",
+    });
   }
 
   const nonRespondersList = nonResponders
     .map((user) => `${user.displayName} (${user.id})`)
     .join("\n");
-  
+
   fs.writeFileSync("non_responders.txt", nonRespondersList);
 
   await interaction.editReply({

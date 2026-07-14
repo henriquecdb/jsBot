@@ -1,31 +1,31 @@
 const { SlashCommandBuilder, MessageFlags } = require("discord.js");
 
 module.exports = {
-    data: new SlashCommandBuilder()
-        .setName("list_jobs")
-        .setDescription("Lista todos os jobs agendados."),
+  data: new SlashCommandBuilder()
+    .setName("list_jobs")
+    .setDescription("Lista todos os jobs agendados."),
 
-    async execute(interaction, bot) {
-        try {
-            const scheduledJobs = bot.scheduledJobs;
+  async execute(interaction, bot) {
+    try {
+      const scheduledJobs = bot.scheduledJobs;
 
-            if (scheduledJobs && scheduledJobs.length > 0) {
-                await interaction.reply({
-                    content: `Trabalhos agendados:\n${scheduledJobs.join("\n")}`,
-                    flags: MessageFlags.Ephemeral,
-                });
-            } else {
-                await interaction.reply({
-                    content: `Nenhum trabalho agendado no momento.`,
-                    flags: MessageFlags.Ephemeral,
-                });
-            }
-        } catch (error) {
-            console.error("Erro ao listar jobs:", error);
-            await interaction.reply({
-                content: `Ocorreu um erro ao listar os jobs: ${error.message}`,
-                flags: MessageFlags.Ephemeral,
-            });
-        }
-    },
+      if (scheduledJobs && scheduledJobs.length > 0) {
+        await interaction.reply({
+          content: `Trabalhos agendados:\n${scheduledJobs.join("\n")}`,
+          flags: MessageFlags.Ephemeral,
+        });
+      } else {
+        await interaction.reply({
+          content: `Nenhum trabalho agendado no momento.`,
+          flags: MessageFlags.Ephemeral,
+        });
+      }
+    } catch (error) {
+      console.error("Erro ao listar jobs:", error);
+      await interaction.reply({
+        content: `Ocorreu um erro ao listar os jobs: ${error.message}`,
+        flags: MessageFlags.Ephemeral,
+      });
+    }
+  },
 };

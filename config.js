@@ -1,6 +1,12 @@
-const required = ['GUILD_ID','CHANNEL_ID','ROLE_ID','EMOJI_ID','REPORT_CHANNEL_ID'];
+const required = [
+  "GUILD_ID",
+  "CHANNEL_ID",
+  "ROLE_ID",
+  "EMOJI_ID",
+  "REPORT_CHANNEL_ID",
+];
 
-required.forEach(k => {
+required.forEach((k) => {
   if (!process.env[k]) throw new Error(`Missing env var ${k}`);
 });
 
